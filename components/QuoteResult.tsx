@@ -27,7 +27,7 @@ const METHOD_COLORS: Record<string, string> = {
 };
 
 export default function QuoteResult({ quoteData, onReset }: Props) {
-  const { input, contractDiscountRec, items, totalPreTax, totalVat, totalWithVat } = quoteData;
+  const { input, contractRecs, items, totalPreTax, totalVat, totalWithVat } = quoteData;
   const [showHubSpotInfo, setShowHubSpotInfo] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -53,60 +53,64 @@ export default function QuoteResult({ quoteData, onReset }: Props) {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Left: Recommendation */}
       <div className="lg:col-span-1 space-y-4">
-        {/* Discount Recommendation Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-slate-700">AI 할인율 추천</h3>
-            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${METHOD_COLORS[contractDiscountRec.method]}`}>
-              {METHOD_LABELS[contractDiscountRec.method]}
-            </span>
-          </div>
-
-          {/* Main recommendation */}
-          <div className="text-center py-4">
-            <div className="text-5xl font-black text-blue-600">
-              {contractDiscountRec.recommended_pct}%
+        {/* Discount Recommendation Cards (계약 건수 항목별, 기본/API 각각 별도 DB 기준) */}
+        {contractRecs.map((cr, idx) => (
+          <div key={idx} className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-bold text-slate-700">
+                AI 할인율 추천 <span className="text-slate-400 font-normal">· {cr.type}</span>
+              </h3>
+              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${METHOD_COLORS[cr.rec.method]}`}>
+                {METHOD_LABELS[cr.rec.method]}
+              </span>
             </div>
-            <div className="text-sm text-slate-500 mt-1">계약 건수 할인율</div>
-          </div>
 
-          <div className="text-xs text-slate-500 bg-slate-50 rounded-lg p-3 mt-2">
-            {contractDiscountRec.note}
-          </div>
-
-          {/* Similar records */}
-          {contractDiscountRec.similar_records.length > 0 && (
-            <div className="mt-4">
-              <p className="text-xs font-medium text-slate-500 mb-2">참고 견적 ({contractDiscountRec.similar_records.length}건)</p>
-              <div className="space-y-1 max-h-40 overflow-y-auto">
-                {contractDiscountRec.similar_records.map((r, i) => (
-                  <div key={i} className="flex items-center justify-between text-xs">
-                    <span className="text-slate-600 truncate max-w-[140px]">{r.company}</span>
-                    <span className="text-slate-800 font-semibold ml-2">
-                      {r.qty.toLocaleString()}건 / {r.discount_pct}%
-                    </span>
-                  </div>
-                ))}
+            {/* Main recommendation */}
+            <div className="text-center py-4">
+              <div className="text-5xl font-black text-blue-600">
+                {cr.rec.recommended_pct}%
               </div>
+              <div className="text-sm text-slate-500 mt-1">{cr.type} 계약 건수 할인율 ({cr.qty.toLocaleString()}건)</div>
             </div>
-          )}
 
-          {/* Interpolation bounds */}
-          {contractDiscountRec.lower_bound && contractDiscountRec.upper_bound && (
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <div className="bg-slate-50 rounded-lg p-2 text-center">
-                <div className="text-xs text-slate-400">하한</div>
-                <div className="text-sm font-bold text-slate-700">{contractDiscountRec.lower_bound.qty.toLocaleString()}건</div>
-                <div className="text-blue-600 font-semibold text-sm">{contractDiscountRec.lower_bound.discount_pct}%</div>
-              </div>
-              <div className="bg-slate-50 rounded-lg p-2 text-center">
-                <div className="text-xs text-slate-400">상한</div>
-                <div className="text-sm font-bold text-slate-700">{contractDiscountRec.upper_bound.qty.toLocaleString()}건</div>
-                <div className="text-blue-600 font-semibold text-sm">{contractDiscountRec.upper_bound.discount_pct}%</div>
-              </div>
+            <div className="text-xs text-slate-500 bg-slate-50 rounded-lg p-3 mt-2">
+              {cr.rec.note}
             </div>
-          )}
-        </div>
+
+            {/* Similar records */}
+            {cr.rec.similar_records.length > 0 && (
+              <div className="mt-4">
+                <p className="text-xs font-medium text-slate-500 mb-2">참고 견적 ({cr.rec.similar_records.length}건)</p>
+                <div className="space-y-1 max-h-40 overflow-y-auto">
+                  {cr.rec.similar_records.map((r, i) => (
+                    <div key={i} className="flex items-center justify-between text-xs">
+                      <span className="text-slate-600 truncate max-w-[140px]">{r.company}</span>
+                      <span className="text-slate-800 font-semibold ml-2">
+                        {r.qty.toLocaleString()}건 / {r.discount_pct}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Interpolation bounds */}
+            {cr.rec.lower_bound && cr.rec.upper_bound && (
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                  <div className="text-xs text-slate-400">하한</div>
+                  <div className="text-sm font-bold text-slate-700">{cr.rec.lower_bound.qty.toLocaleString()}건</div>
+                  <div className="text-blue-600 font-semibold text-sm">{cr.rec.lower_bound.discount_pct}%</div>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                  <div className="text-xs text-slate-400">상한</div>
+                  <div className="text-sm font-bold text-slate-700">{cr.rec.upper_bound.qty.toLocaleString()}건</div>
+                  <div className="text-blue-600 font-semibold text-sm">{cr.rec.upper_bound.discount_pct}%</div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
 
         {/* HubSpot Section */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">

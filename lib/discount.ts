@@ -147,4 +147,5 @@ export const CONTRACT_UNIT_PRICE = 2000; // 건당 단가 (원)
 export const CONTRACT_RECORD_COUNT = records.length;
 export const API_UNIT_PRICE = 2000; // API 건당 단가 (원)
 export const API_RECORD_COUNT = apiRecords.length;
-export const API_USAGE_FEE_TYPE = "API 건당 이용료";
+export const CONTRACT_TYPE_BASIC = "기본(Cloud)";
+export const CONTRACT_TYPE_API = "API";

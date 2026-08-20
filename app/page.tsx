@@ -12,24 +12,36 @@ import {
   CONTRACT_UNIT_PRICE,
   CONTRACT_RECORD_COUNT,
   API_UNIT_PRICE,
-  API_USAGE_FEE_TYPE,
+  API_RECORD_COUNT,
+  CONTRACT_TYPE_BASIC,
+  CONTRACT_TYPE_API,
 } from "@/lib/discount";
 
 export interface FeeItem {
   type: string;
-  price?: number;
-  qty?: number;
+  price: number;
+}
+
+export interface ContractItem {
+  type: string; // CONTRACT_TYPE_BASIC | CONTRACT_TYPE_API
+  qty: number;
 }
 
 export interface QuoteInput {
   companyName: string;
   feeItems: FeeItem[];
-  contractQty: number;
+  contractItems: ContractItem[];
+}
+
+export interface ContractLineRec {
+  type: string;
+  qty: number;
+  rec: ReturnType<typeof recommendDiscount>;
 }
 
 export interface QuoteData {
   input: QuoteInput;
-  contractDiscountRec: ReturnType<typeof recommendDiscount>;
+  contractRecs: ContractLineRec[];
   items: {
     name: string;
     qty: number;
@@ -51,29 +63,12 @@ export default function Home() {
   const handleGenerate = (input: QuoteInput) => {
     setIsSubmitting(true);
 
-    // 할인율 추천
-    const contractDiscountRec = recommendDiscount(input.contractQty);
-    const contractDiscountPct = contractDiscountRec.recommended_pct;
-
-    // 견적 항목 계산
     const items: QuoteData["items"] = [];
+    const contractRecs: ContractLineRec[] = [];
 
-    // 이용료 항목 (기본 이용료 / API 기본 이용료 → 50% 고정, API 건당 이용료 → 별도 DB 기준 추천)
+    // 이용료 항목 (기본 이용료 / API 기본 이용료, 50% 고정)
     input.feeItems.forEach((fee) => {
-      if (fee.type === API_USAGE_FEE_TYPE) {
-        if (fee.qty && fee.qty > 0) {
-          const apiRec = recommendApiDiscount(fee.qty);
-          const amount = calcAmount(API_UNIT_PRICE, fee.qty, apiRec.recommended_pct);
-          items.push({
-            name: API_USAGE_FEE_TYPE,
-            qty: fee.qty,
-            unitPrice: API_UNIT_PRICE,
-            discountPct: apiRec.recommended_pct,
-            amount,
-            rationale: { method: apiRec.method, note: apiRec.note },
-          });
-        }
-      } else if (fee.price && fee.price > 0) {
+      if (fee.price > 0) {
         const amount = calcAmount(fee.price, 1, 50);
         items.push({
           name: fee.type,
@@ -85,18 +80,24 @@ export default function Home() {
       }
     });
 
-    // 계약 건수
-    if (input.contractQty > 0) {
-      const amount = calcAmount(CONTRACT_UNIT_PRICE, input.contractQty, contractDiscountPct);
-      items.push({
-        name: "계약 건수",
-        qty: input.contractQty,
-        unitPrice: CONTRACT_UNIT_PRICE,
-        discountPct: contractDiscountPct,
-        amount,
-        rationale: { method: contractDiscountRec.method, note: contractDiscountRec.note },
-      });
-    }
+    // 계약 건수 (기본/API 별도 DB 기준 자동 추천)
+    input.contractItems.forEach((c) => {
+      if (c.qty > 0) {
+        const isApi = c.type === CONTRACT_TYPE_API;
+        const rec = isApi ? recommendApiDiscount(c.qty) : recommendDiscount(c.qty);
+        const unitPrice = isApi ? API_UNIT_PRICE : CONTRACT_UNIT_PRICE;
+        const amount = calcAmount(unitPrice, c.qty, rec.recommended_pct);
+        items.push({
+          name: isApi ? "계약 건수 (API)" : "계약 건수",
+          qty: c.qty,
+          unitPrice,
+          discountPct: rec.recommended_pct,
+          amount,
+          rationale: { method: rec.method, note: rec.note },
+        });
+        contractRecs.push({ type: c.type, qty: c.qty, rec });
+      }
+    });
 
     const totalPreTax = items.reduce((s, i) => s + i.amount, 0);
     const totalVat = Math.round(totalPreTax * 0.1);
@@ -104,7 +105,7 @@ export default function Home() {
 
     setQuoteData({
       input,
-      contractDiscountRec,
+      contractRecs,
       items,
       totalPreTax,
       totalVat,
@@ -135,8 +136,9 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-2 text-xs text-slate-400">
             <span className="w-2 h-2 bg-green-400 rounded-full inline-block"></span>
-            DB {" "}
-            <span className="font-semibold text-slate-600">{CONTRACT_RECORD_COUNT}건</span> 로드됨
+            계약 건수 DB <span className="font-semibold text-slate-600">{CONTRACT_RECORD_COUNT}건</span>
+            <span className="text-slate-300">·</span>
+            API DB <span className="font-semibold text-slate-600">{API_RECORD_COUNT}건</span> 로드됨
           </div>
         </div>
       </header>
@@ -156,7 +158,11 @@ export default function Home() {
         ) : (
           <div className="space-y-6">
             <QuoteResult quoteData={quoteData} onReset={handleReset} />
-            <DiscountChart highlightQty={quoteData.input.contractQty} />
+            <DiscountChart
+              highlightQty={
+                quoteData.input.contractItems.find((c) => c.type === CONTRACT_TYPE_BASIC && c.qty > 0)?.qty ?? null
+              }
+            />
           </div>
         )}
       </main>
