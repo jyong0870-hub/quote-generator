@@ -1,0 +1,13 @@
+[
+  { "seats": 5, "pricePerSeatMonthly": 10000, "pricePerSeatYearly": 100000, "listPrice": 500000, "ceilingPrice": 300000, "ceilingPct": 40.0, "floorPrice": 250000, "floorPct": 50.0, "guide": null },
+  { "seats": 10, "pricePerSeatMonthly": 9000, "pricePerSeatYearly": 90000, "listPrice": 900000, "ceilingPrice": 900000, "ceilingPct": 0.0, "floorPrice": 450000, "floorPct": 50.0, "guide": null },
+  { "seats": 20, "pricePerSeatMonthly": 8000, "pricePerSeatYearly": 80000, "listPrice": 1600000, "ceilingPrice": 1600000, "ceilingPct": 0.0, "floorPrice": 800000, "floorPct": 50.0, "guide": "최저 단가 미만은 담당 AE/AM이 CRM 내 사유를 기재할 것" },
+  { "seats": 30, "pricePerSeatMonthly": 7000, "pricePerSeatYearly": 70000, "listPrice": 2100000, "ceilingPrice": 2100000, "ceilingPct": 0.0, "floorPrice": 1050000, "floorPct": 50.0, "guide": "맞춤형에서 월 요금제 판매는 지양하되, 고객 요청시 /10개월 가격으로 제공" },
+  { "seats": 50, "pricePerSeatMonthly": 6000, "pricePerSeatYearly": 60000, "listPrice": 3000000, "ceilingPrice": 3000000, "ceilingPct": 0.0, "floorPrice": 1500000, "floorPct": 50.0, "guide": null },
+  { "seats": 100, "pricePerSeatMonthly": 5000, "pricePerSeatYearly": 50000, "listPrice": 5000000, "ceilingPrice": 5000000, "ceilingPct": 0.0, "floorPrice": 2500000, "floorPct": 50.0, "guide": null },
+  { "seats": 200, "pricePerSeatMonthly": 4500, "pricePerSeatYearly": 45000, "listPrice": 9000000, "ceilingPrice": 9000000, "ceilingPct": 0.0, "floorPrice": 4500000, "floorPct": 50.0, "guide": "최저가 아래 견적은 팀 리더 승인 필수(CRM 내 기능 구현 전까지 구두 승인) - 기업영업팀: James / 고객성공팀: Ivy" },
+  { "seats": 300, "pricePerSeatMonthly": 4000, "pricePerSeatYearly": 40000, "listPrice": 12000000, "ceilingPrice": 12000000, "ceilingPct": 0.0, "floorPrice": 6000000, "floorPct": 50.0, "guide": null },
+  { "seats": 500, "pricePerSeatMonthly": 3500, "pricePerSeatYearly": 35000, "listPrice": 17500000, "ceilingPrice": 17500000, "ceilingPct": 0.0, "floorPrice": 8750000, "floorPct": 50.0, "guide": "월 요금제 미제공" },
+  { "seats": 1000, "pricePerSeatMonthly": 3000, "pricePerSeatYearly": 30000, "listPrice": 30000000, "ceilingPrice": 30000000, "ceilingPct": 0.0, "floorPrice": 15000000, "floorPct": 50.0, "guide": null },
+  { "seats": null, "pricePerSeatMonthly": 2500, "pricePerSeatYearly": 25000, "listPrice": null, "ceilingPrice": null, "ceilingPct": null, "floorPrice": null, "floorPct": null, "guide": "1,000개 초과 — 비즈니스리더와 함께 논의 필요" }
+]

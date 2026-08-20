@@ -15,6 +15,8 @@ const METHOD_LABELS: Record<string, string> = {
   edge_lower: "하한 기준",
   edge_upper: "상한 기준",
   default: "기본값",
+  policy: "정책 가이드",
+  negotiate: "협의 필요",
 };
 
 const METHOD_COLORS: Record<string, string> = {
@@ -24,6 +26,8 @@ const METHOD_COLORS: Record<string, string> = {
   edge_lower: "bg-yellow-100 text-yellow-700",
   edge_upper: "bg-yellow-100 text-yellow-700",
   default: "bg-slate-100 text-slate-600",
+  policy: "bg-slate-100 text-slate-600",
+  negotiate: "bg-red-100 text-red-700",
 };
 
 export default function QuoteResult({ quoteData, onReset }: Props) {
@@ -35,9 +39,10 @@ export default function QuoteResult({ quoteData, onReset }: Props) {
     const lines = [
       `[${input.companyName} 견적서]`,
       ``,
-      ...items.map(
-        (item) =>
-          `${item.name}: ${item.qty.toLocaleString()}${item.qty === 1 ? "" : "건"} × ${item.unitPrice.toLocaleString()}원 (${item.discountPct}% 할인) = ${item.amount.toLocaleString()}원`
+      ...items.map((item) =>
+        item.isNegotiated
+          ? `${item.name}: 협의 필요 (정책표 범위 초과)`
+          : `${item.name}: ${item.qty.toLocaleString()}${item.qty === 1 ? "" : "건"} × ${item.unitPrice.toLocaleString()}원 (${item.discountPct}% 할인) = ${item.amount.toLocaleString()}원`
       ),
       ``,
       `소계: ${totalPreTax.toLocaleString()}원`,
@@ -190,17 +195,21 @@ export default function QuoteResult({ quoteData, onReset }: Props) {
                         {item.unitPrice.toLocaleString()}원
                       </td>
                       <td className="py-3 text-right">
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                          item.discountPct >= 70 ? "bg-red-100 text-red-700" :
-                          item.discountPct >= 60 ? "bg-orange-100 text-orange-700" :
-                          item.discountPct >= 50 ? "bg-yellow-100 text-yellow-700" :
-                          "bg-green-100 text-green-700"
-                        }`}>
-                          {item.discountPct}%
-                        </span>
+                        {item.isNegotiated ? (
+                          <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700">협의 필요</span>
+                        ) : (
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
+                            item.discountPct >= 70 ? "bg-red-100 text-red-700" :
+                            item.discountPct >= 60 ? "bg-orange-100 text-orange-700" :
+                            item.discountPct >= 50 ? "bg-yellow-100 text-yellow-700" :
+                            "bg-green-100 text-green-700"
+                          }`}>
+                            {item.discountPct}%
+                          </span>
+                        )}
                       </td>
                       <td className="py-3 text-right font-semibold text-slate-900">
-                        {item.amount.toLocaleString()}원
+                        {item.isNegotiated ? "협의 필요" : `${item.amount.toLocaleString()}원`}
                       </td>
                     </tr>
                     {item.rationale && (

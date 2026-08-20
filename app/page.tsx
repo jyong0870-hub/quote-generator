@@ -16,10 +16,11 @@ import {
   CONTRACT_TYPE_BASIC,
   CONTRACT_TYPE_API,
 } from "@/lib/discount";
+import { getSeatTier, getApiBaseFeeTier, FEE_TYPE_SEAT, FEE_TYPE_API_BASE } from "@/lib/pricing";
 
 export interface FeeItem {
-  type: string;
-  price: number;
+  type: string; // FEE_TYPE_SEAT | FEE_TYPE_API_BASE
+  qty: number; // 시트 개수 (기본 이용료) or 연간 API 서명요청 수량 (API 기본 이용료)
 }
 
 export interface ContractItem {
@@ -49,6 +50,7 @@ export interface QuoteData {
     discountPct: number;
     amount: number;
     isFree?: boolean;
+    isNegotiated?: boolean;
     rationale?: { method: string; note: string };
   }[];
   totalPreTax: number;
@@ -66,17 +68,54 @@ export default function Home() {
     const items: QuoteData["items"] = [];
     const contractRecs: ContractLineRec[] = [];
 
-    // 이용료 항목 (기본 이용료 / API 기본 이용료, 50% 고정)
+    // 이용료 항목 (기본 이용료 = 시트 번들, API 기본 이용료 = API 라이선스 기본료 — 둘 다 정책표 기준 50% 고정)
     input.feeItems.forEach((fee) => {
-      if (fee.price > 0) {
-        const amount = calcAmount(fee.price, 1, 50);
-        items.push({
-          name: fee.type,
-          qty: 1,
-          unitPrice: fee.price,
-          discountPct: 50,
-          amount,
-        });
+      if (!(fee.qty > 0)) return;
+
+      if (fee.type === FEE_TYPE_SEAT) {
+        const tier = getSeatTier(fee.qty);
+        if (tier.listPrice != null && tier.floorPrice != null) {
+          items.push({
+            name: `기본 이용료 (${tier.seats?.toLocaleString()}개 시트 번들)`,
+            qty: 1,
+            unitPrice: tier.listPrice,
+            discountPct: tier.floorPct ?? 50,
+            amount: tier.floorPrice,
+            rationale: tier.guide ? { method: "policy", note: tier.guide } : undefined,
+          });
+        } else {
+          items.push({
+            name: `기본 이용료 (${fee.qty.toLocaleString()}개 시트)`,
+            qty: 1,
+            unitPrice: 0,
+            discountPct: 0,
+            amount: 0,
+            isNegotiated: true,
+            rationale: { method: "negotiate", note: tier.guide ?? "1,000개 초과 — 비즈니스리더와 함께 논의 필요" },
+          });
+        }
+      } else if (fee.type === FEE_TYPE_API_BASE) {
+        const tier = getApiBaseFeeTier(fee.qty);
+        if (tier.baseFeeListPrice != null && tier.baseFeeFloorPrice != null) {
+          items.push({
+            name: `API 기본 이용료 (연 ${tier.qtyPerYear?.toLocaleString()}건 이하)`,
+            qty: 1,
+            unitPrice: tier.baseFeeListPrice,
+            discountPct: 50,
+            amount: tier.baseFeeFloorPrice,
+            rationale: tier.guide ? { method: "policy", note: tier.guide } : undefined,
+          });
+        } else {
+          items.push({
+            name: `API 기본 이용료 (연 ${fee.qty.toLocaleString()}건)`,
+            qty: 1,
+            unitPrice: 0,
+            discountPct: 0,
+            amount: 0,
+            isNegotiated: true,
+            rationale: { method: "negotiate", note: tier.guide ?? "100,000건 초과 — 그룹리더 포함 논의 필요" },
+          });
+        }
       }
     });
 
