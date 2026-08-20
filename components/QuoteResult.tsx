@@ -9,8 +9,8 @@ interface Props {
 }
 
 const METHOD_LABELS: Record<string, string> = {
-  exact: "정확 매칭",
-  nearby: "유사 수량 평균",
+  weighted: "인근 수량 가중 평균",
+  exact: "동일 수량 평균",
   interpolated: "구간 보간",
   edge_lower: "하한 기준",
   edge_upper: "상한 기준",
@@ -18,8 +18,8 @@ const METHOD_LABELS: Record<string, string> = {
 };
 
 const METHOD_COLORS: Record<string, string> = {
+  weighted: "bg-blue-100 text-blue-700",
   exact: "bg-green-100 text-green-700",
-  nearby: "bg-blue-100 text-blue-700",
   interpolated: "bg-purple-100 text-purple-700",
   edge_lower: "bg-yellow-100 text-yellow-700",
   edge_upper: "bg-yellow-100 text-yellow-700",

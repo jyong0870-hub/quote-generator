@@ -27,8 +27,38 @@ const apiRecords: ContractRecord[] = apiContractRecords as ContractRecord[];
  * 3. 없으면 보간 (바로 아래/위 값 선형 보간)
  */
 function recommendFrom(recordSet: ContractRecord[], targetQty: number): DiscountRecommendation {
-  // 1. Exact match
   const exactMatches = recordSet.filter((r) => r.qty === targetQty);
+
+  // 1. 수량 인근(±40%) 견적을 모두 모아 근접도 가중 평균.
+  //    동일 수량 견적도 이 풀에 포함시켜 가중치를 높게 주되, 소수의 동일 수량 견적만으로
+  //    (엣지케이스 1건 등) 그대로 추천값이 되지 않도록 인근 데이터로 스무딩한다.
+  const windowed = recordSet.filter(
+    (r) => r.qty >= targetQty * 0.6 && r.qty <= targetQty * 1.4
+  );
+  if (windowed.length >= 2) {
+    const weights = windowed.map((r) => 1 / (Math.abs(r.qty - targetQty) + 1));
+    const totalWeight = weights.reduce((s, w) => s + w, 0);
+    const weightedAvg = windowed.reduce(
+      (s, r, i) => s + r.discount_pct * weights[i],
+      0
+    ) / totalWeight;
+    const sorted = [...windowed].sort(
+      (a, b) => Math.abs(a.qty - targetQty) - Math.abs(b.qty - targetQty)
+    );
+    return {
+      recommended_pct: Math.round(weightedAvg),
+      method: "weighted",
+      similar_records: sorted,
+      lower_bound: null,
+      upper_bound: null,
+      note:
+        exactMatches.length > 0
+          ? `수량 인근 견적 ${windowed.length}건 가중 평균 (동일 수량 ${exactMatches.length}건 포함)`
+          : `유사 수량 ${windowed.length}건 가중 평균 (수량 근접도 기준)`,
+    };
+  }
+
+  // 2. 인근 데이터가 부족하지만 동일 수량 견적은 있는 경우
   if (exactMatches.length > 0) {
     const avg =
       exactMatches.reduce((s, r) => s + r.discount_pct, 0) /
@@ -39,32 +69,7 @@ function recommendFrom(recordSet: ContractRecord[], targetQty: number): Discount
       similar_records: exactMatches,
       lower_bound: null,
       upper_bound: null,
-      note: `동일 수량(${targetQty.toLocaleString()}건) 견적 ${exactMatches.length}건 기준 평균`,
-    };
-  }
-
-  // 2. Nearby ±40%
-  const nearby = recordSet.filter(
-    (r) =>
-      r.qty >= targetQty * 0.6 &&
-      r.qty <= targetQty * 1.4 &&
-      r.qty !== targetQty
-  );
-  if (nearby.length >= 2) {
-    // Weighted average: closer qty = higher weight
-    const weights = nearby.map((r) => 1 / Math.abs(r.qty - targetQty));
-    const totalWeight = weights.reduce((s, w) => s + w, 0);
-    const weightedAvg = nearby.reduce(
-      (s, r, i) => s + r.discount_pct * weights[i],
-      0
-    ) / totalWeight;
-    return {
-      recommended_pct: Math.round(weightedAvg),
-      method: "nearby",
-      similar_records: nearby.sort((a, b) => a.qty - b.qty),
-      lower_bound: null,
-      upper_bound: null,
-      note: `유사 수량 ${nearby.length}건 가중 평균 (수량 근접도 기준)`,
+      note: `동일 수량(${targetQty.toLocaleString()}건) 견적 ${exactMatches.length}건 기준 (인근 데이터 부족)`,
     };
   }
 
