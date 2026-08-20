@@ -94,5 +94,17 @@
     "qty": 300,
     "discount_pct": 30.0,
     "unit_price": 2000
+  },
+  {
+    "company": "페이스토리(혼합형 2,300건)",
+    "qty": 900,
+    "discount_pct": 50.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "페이스토리(혼합형 1,700건)",
+    "qty": 700,
+    "discount_pct": 45.0,
+    "unit_price": 2000
   }
 ]
