@@ -1,0 +1,266 @@
+[
+  {
+    "company": "라이클컴퍼니_2026(신)",
+    "qty": 1600,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "동해종합기술공사",
+    "qty": 3000,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "신세계물류 추가충전",
+    "qty": 3000,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "노무법인태일(무상포함)",
+    "qty": 1300,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "주식회사 잘(1,800건)",
+    "qty": 1800,
+    "discount_pct": 58.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "윗유(5,000건 혼합)",
+    "qty": 10000,
+    "discount_pct": 73.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "윗유(2,000건 혼합)",
+    "qty": 900,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "펜타크리드(1,700건)",
+    "qty": 1700,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "펜타크리드(1,600건)",
+    "qty": 1600,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "주식회사 잘(2,400건)",
+    "qty": 2400,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "주식회사 잘(1,800건)v2",
+    "qty": 1800,
+    "discount_pct": 50.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "삼안",
+    "qty": 3200,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "폴라리스오피스",
+    "qty": 50,
+    "discount_pct": 40.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "넥스트젠(500건)",
+    "qty": 200,
+    "discount_pct": 40.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "홈즈컴퍼니(무상포함 1,600건)",
+    "qty": 1500,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "홈즈컴퍼니(무상제공포함)",
+    "qty": 1800,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "인명건설 충전(18,000건)",
+    "qty": 18000,
+    "discount_pct": 70.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "이브이앤솔루션",
+    "qty": 200,
+    "discount_pct": 50.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "그룹바이에이치알(1,400건)",
+    "qty": 1400,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "그룹바이에이치알(1,100건)",
+    "qty": 1100,
+    "discount_pct": 57.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "나눔씨앤에스 추가충전",
+    "qty": 18000,
+    "discount_pct": 70.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "알쓰컴퍼니",
+    "qty": 500,
+    "discount_pct": 50.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "위대한상상(보안Enterprise)",
+    "qty": 1500,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "메이드인헤븐(무상 1,400건)",
+    "qty": 900,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "메이드인헤븐(무상 1,300건)",
+    "qty": 900,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "BGF리테일 HR(14,500건)",
+    "qty": 14500,
+    "discount_pct": 80.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "BGF리테일 HR(16,000건)",
+    "qty": 14500,
+    "discount_pct": 80.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "BGF리테일 HR(10,000건)",
+    "qty": 10000,
+    "discount_pct": 73.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "코나투스",
+    "qty": 5000,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "올리브인터내셔널(4,000건)",
+    "qty": 1000,
+    "discount_pct": 65.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "올리브인터내셔널(4,000건)",
+    "qty": 4000,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "올리브인터내셔널(3,500건)",
+    "qty": 3500,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "라이클컴퍼니(구)",
+    "qty": 600,
+    "discount_pct": 55.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "에이션패션(무상제공 포함)",
+    "qty": 4000,
+    "discount_pct": 73.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "파로홀딩스",
+    "qty": 1400,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "페이스토리(혼합형)",
+    "qty": 1200,
+    "discount_pct": 45.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "모투스컴퍼니(350건)",
+    "qty": 350,
+    "discount_pct": 50.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "모투스컴퍼니(250건)",
+    "qty": 250,
+    "discount_pct": 45.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "모투스컴퍼니(200건)",
+    "qty": 200,
+    "discount_pct": 45.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "알파코 추가충전(500건)",
+    "qty": 500,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "알파코 추가충전(800건)",
+    "qty": 800,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "알파코 추가충전(700건)",
+    "qty": 700,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "노을(혼합형)",
+    "qty": 200,
+    "discount_pct": 50.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "레디엔터테인먼트",
+    "qty": 500,
+    "discount_pct": 50.0,
+    "unit_price": 2000
+  }
+]

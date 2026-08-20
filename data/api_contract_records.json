@@ -1,0 +1,98 @@
+[
+  {
+    "company": "페이플(300건)",
+    "qty": 300,
+    "discount_pct": 35.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "페이플(200건)",
+    "qty": 200,
+    "discount_pct": 30.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "올마이투어(400건)",
+    "qty": 400,
+    "discount_pct": 25.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "올마이투어(500건)",
+    "qty": 500,
+    "discount_pct": 30.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "올마이투어(350건)",
+    "qty": 350,
+    "discount_pct": 25.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "위킵 추가충전",
+    "qty": 60,
+    "discount_pct": 60.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "한국기술마켓",
+    "qty": 100,
+    "discount_pct": 35.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "한국기술마켓(개발서버)",
+    "qty": 100,
+    "discount_pct": 35.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "넥스트젠코퍼레이션(1,000건)",
+    "qty": 1000,
+    "discount_pct": 35.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "넥스트젠코퍼레이션(500건)",
+    "qty": 500,
+    "discount_pct": 30.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "넥스트젠코퍼레이션(200건)",
+    "qty": 200,
+    "discount_pct": 25.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "슈퍼터빈테크놀로지(300건)",
+    "qty": 300,
+    "discount_pct": 25.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "슈퍼터빈테크놀로지(500건)",
+    "qty": 500,
+    "discount_pct": 30.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "에드원",
+    "qty": 200,
+    "discount_pct": 30.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "페이스토리(혼합형)",
+    "qty": 800,
+    "discount_pct": 45.0,
+    "unit_price": 2000
+  },
+  {
+    "company": "노을(혼합형)",
+    "qty": 300,
+    "discount_pct": 30.0,
+    "unit_price": 2000
+  }
+]
